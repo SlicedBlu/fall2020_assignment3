@@ -13,17 +13,20 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	private String username;
 
-	@Column(unique = true)
+	@Column(unique = false)
 	private String password;
 	
-	@Column(unique = true)
+	@Column(unique = false)
 	private String profpic;
 	
-	@Column(unique = true)
+	@Column(unique = false)
 	private String bio;
+	
+	@Column(unique = false, nullable = false)
+	private String name;
 
 	public Integer getId() {
 		return id;
@@ -63,5 +66,13 @@ public class User {
 
 	public void setBio(String bio) {
 		this.bio = bio;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

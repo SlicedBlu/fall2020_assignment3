@@ -46,11 +46,13 @@ public class MainController {
 		
 		String biotext = profile.getBio();
 		String profilepic = profile.getProfpic();
+		String name = profile.getName();
 		
 		ModelAndView view = new ModelAndView("home");
 		
 		view.addObject("biotext", biotext);
 		view.addObject("profilepic", profilepic);
+		view.addObject("name", name);
 		return view;
 	}
 	
@@ -113,12 +115,32 @@ public class MainController {
     }
 	
 	@PostMapping(value = "/editprofile")
-    public ModelAndView uploads3(@RequestParam("bio") String bio) {
+    public ModelAndView changeBio(@RequestParam("bio") String bio) {
         ModelAndView returnPage = new ModelAndView();
 
         try {			
 			User update = userRepository.findByUsername("erik");
 			update.setBio(bio);
+			userRepository.save(update);
+
+            returnPage.setViewName("confirm");
+
+            //Save this in the DB. 
+        } catch(Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            returnPage.setViewName("error");
+        }
+        return returnPage;
+    }
+	
+	@PostMapping(value = "/editname")
+    public ModelAndView changeName(@RequestParam("name") String name) {
+        ModelAndView returnPage = new ModelAndView();
+
+        try {			
+			User update = userRepository.findByUsername("erik");
+			update.setName(name);
 			userRepository.save(update);
 
             returnPage.setViewName("confirm");
