@@ -40,8 +40,18 @@ public class MainController {
     String bucketName;
 	
 	@GetMapping(path="/")
-	public ModelAndView showHome(){
-		return new ModelAndView("home");
+	public ModelAndView biotext(){
+		
+		User profile = userRepository.findByUsername("erik");
+		
+		String biotext = profile.getBio();
+		String profilepic = profile.getProfpic();
+		
+		ModelAndView view = new ModelAndView("home");
+		
+		view.addObject("biotext", biotext);
+		view.addObject("profilepic", profilepic);
+		return view;
 	}
 	
 	@GetMapping(path="/login")
@@ -54,13 +64,29 @@ public class MainController {
 		return new ModelAndView("edit");
 	}
 	
+	@GetMapping(path="/confirm")
+	public ModelAndView showConfirm(){
+		return new ModelAndView("confirm");
+	}
+	
+	@GetMapping(path="/validate")
+	public ModelAndView showValidate(@RequestParam("username") String username, @RequestParam("password") String password){
+		ModelAndView returnPage = new ModelAndView();
+		User profile = userRepository.findByUsername(username);
+		if ((profile.getUsername().equals(username)) && (profile.getPassword().equals(password))){
+			returnPage.setViewName("edit");
+		}
+		else {
+			returnPage.setViewName("error");
+		}
+		return returnPage;
+	}
+	
 	@PostMapping(value = "/upload")
     public ModelAndView uploads3(@RequestParam("photo") MultipartFile image) {
         ModelAndView returnPage = new ModelAndView();
 
         BasicAWSCredentials cred = new BasicAWSCredentials(accesskey, secretkey);
-        // AmazonS3Client client=AmazonS3ClientBuilder.standard().withCredentials(new
-        // AWSCredentialsProvider(cred)).with
         AmazonS3 client = AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(cred))
                 .withRegion(Regions.US_EAST_1).build();
         try {
@@ -69,9 +95,12 @@ public class MainController {
             client.putObject(put);
 
             String imgSrc = "http://" + bucketName + ".s3.amazonaws.com/" + image.getOriginalFilename();
+			
+			User update = userRepository.findByUsername("erik");
+			update.setProfpic(imgSrc);
+			userRepository.save(update);
 
-            returnPage.setViewName("home");
-            returnPage.addObject("imgSrc", imgSrc);
+            returnPage.setViewName("confirm");
 
             //Save this in the DB. 
         } catch (IOException e) {
@@ -82,40 +111,29 @@ public class MainController {
         return returnPage;
 
     }
+	
+	@PostMapping(value = "/editprofile")
+    public ModelAndView uploads3(@RequestParam("bio") String bio) {
+        ModelAndView returnPage = new ModelAndView();
 
-	// http://localhost:8080/users/add
-	@PostMapping(path="/add") // Map ONLY POST Requests
-	public @ResponseBody String addNewUser (
-		@RequestParam String name
-			, @RequestParam String email) {
-		// @ResponseBody means the returned String is the response, not a view name
-		// @RequestParam means it is a parameter from the GET or POST request
+        try {			
+			User update = userRepository.findByUsername("erik");
+			update.setBio(bio);
+			userRepository.save(update);
 
-		User n = new User();
-		n.setName(name);
-		n.setEmail(email);
-		userRepository.save(n);
-		return "Saved";
-	}
+            returnPage.setViewName("confirm");
 
-	@GetMapping(path="/all")
-	public @ResponseBody Iterable<User> getAllUsers() {
-		// This returns a JSON or XML with the users
-		return userRepository.findAll();
-	}
-	@GetMapping(path="/user")
-	public @ResponseBody Optional<User> getOneUser(@RequestParam Integer id) {
-		// This returns a JSON or XML with the users
-		return userRepository.findById(id);
-		
-	}
-
-	@GetMapping(path="/userByName")
-	public @ResponseBody User getOneUserByName(@RequestParam String name) {
-		return userRepository.findByName(name);
-	}
-	@GetMapping(path="/addUser")
-	public ModelAndView showPage(){
-		return new ModelAndView("signupForm");
+            //Save this in the DB. 
+        } catch(Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            returnPage.setViewName("error");
+        }
+        return returnPage;
+    }
+	
+	@GetMapping(path="/error")
+	public ModelAndView showError(){
+		return new ModelAndView("error");
 	}
 }
