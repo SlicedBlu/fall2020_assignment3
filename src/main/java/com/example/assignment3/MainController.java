@@ -18,8 +18,6 @@ import java.io.IOException;
 import org.json.*;
 
 import com.squareup.okhttp.*;
-import org.json.simple.*;
-import org.json.simple.parser.*;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -45,7 +43,7 @@ public class MainController {
     String bucketName;
 	
 	@GetMapping(path="/")
-	public ModelAndView biotext() throws IOException, ParseException{
+	public ModelAndView biotext() throws IOException{
 		
 		User profile = userRepository.findByUsername("erik");
 		
