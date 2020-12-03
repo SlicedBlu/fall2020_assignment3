@@ -70,13 +70,11 @@ public class MainController {
 
 		Response response = client.newCall(request).execute();
 		
-		JsonObject data = JsonParser.parseString(response.body().string()).getAsJsonObject();
-        JsonObject data_object = data.getAsJsonObject();
-		JsonArray data_array = data_object.getAsJsonArray("data");
-		data_object = data_array.get(0).getAsJsonObject();
-        String temperature = data_object.get("temperature").getAsString();
-
-		//String temperature = response.body().string();
+		JsonObject myData = JsonParser.parseString(response.body()).getAsJsonObject();
+        myData = myData.getAsJsonObject();
+		JsonArray dataArray = myData.getAsJsonArray("data");
+		myData = dataArray.get(0).getAsJsonObject();
+        String temperature = myData.get("temperature").getAsString();
 		
 		view.addObject("temperature", temperature);
 		
