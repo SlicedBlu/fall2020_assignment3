@@ -68,11 +68,9 @@ public class MainController {
 
 		Response response = client.newCall(request).execute();
 		
-		String res = response.body();
+		JSONObject json = new JSONObject(response.body());
 		
-		JSONObject json = new JSONObject(res);
-		
-		res = json.getJSONObject("data")[0].getString("temp");
+		String res = json.getJSONObject("data")[0].getString("temp");
 		
 		view.addObject("res", res);
 		
