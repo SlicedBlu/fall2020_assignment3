@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.JSONParser;
+import org.json.simple.parser.JSONParser;
 
 import com.squareup.okhttp.*;
 
@@ -70,14 +70,15 @@ public class MainController {
 
 		Response response = client.newCall(request).execute();
 
-		JSONParser p = new JSONParser();
+		JsonParser p = new JsonParser();
 		Object json = p.parse(response.body().string());
 		JSONObject o = (JSONObject) json;
 		JSONArray array = (JSONArray) o.get("data");
 		
 		for (int i = 0; i < array.size(); i++) {
 			JSONObject temp = (JSONObject) array.get(i);
-			temperature = new String((String) temp.get("temp"));
+			String temperature = new String();
+			temperature = (String) temp.get("temp");
 		}
 		
 		view.addObject("temperature", temperature);
