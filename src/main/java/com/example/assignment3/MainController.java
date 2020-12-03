@@ -71,27 +71,7 @@ public class MainController {
 
 		Response response = client.newCall(request).execute();
 
-		JSONParser p = new JSONParser();
-		try{
-			Object json = p.parse(response.body().string());
-		}
-		catch(Exception e){
-			return new ModelAndView("login");
-		}
-		JSONObject o = (JSONObject) json;
-		try{
-			JSONArray array = (JSONArray) o.get("data");
-		}
-		catch(Exception e){
-			return new ModelAndView("edit");
-		}
-		
-		String temperature = new String();
-		
-		for (int i = 0; i < array.size(); i++) {
-			JSONObject temp = (JSONObject) array.get(i);
-			temperature = (String) temp.get("temp");
-		}
+		String temperature = response.body().string();
 		
 		view.addObject("temperature", temperature);
 		
