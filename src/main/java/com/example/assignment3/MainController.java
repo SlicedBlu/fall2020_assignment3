@@ -68,34 +68,16 @@ public class MainController {
 
 		Response response = client.newCall(request).execute();
 		
-		try{
-			JSONObject json = new JSONObject(response.body());
-			view.addObject("one", json);
-		}
-		catch(Exception e){
-			view.addObject("one", "NULL");
-		}
-		try{
-			JSONArray array = (JSONArray) json.get("data");
-			view.addObject("two", array);
-		}
-		catch(Exception e){
-			view.addObject("two", "NULL");
-		}
-		try{
-			JSONObject list = (JSONObject) array.get(0);
-			view.addObject("three", list);
-		}
-		catch(Exception e){
-			view.addObject("three", "NULL");
-		}
-		try{
-			String temperature = (String) list.get("temp");
-			view.addObject("temperature", temperature);
-		}
-		catch(Exception e){
-			view.addObject("temperature", "NULL");
-		}
+		JSONObject json = new JSONObject(response.body());
+		System.out.println(json);
+		JSONArray array = (JSONArray) json.get("data");
+		System.out.println(array);
+		JSONObject list = (JSONObject) array.get(0);
+		System.out.println(list);
+		String temperature = (String) list.get("temp");
+		System.out.println(temperature);
+		
+		view.addObject("temperature", temperature);
 		
 		return view;
 	}
