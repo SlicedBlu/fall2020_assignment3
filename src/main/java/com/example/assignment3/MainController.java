@@ -15,9 +15,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import com.squareup.okhttp.*;
-import org.json.simple.JSONObject;
+import org.json.simple.*;
+import org.json.simple.parser.*;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -68,11 +71,10 @@ public class MainController {
 
 		Response response = client.newCall(request).execute();
 		
-		JSONObject json = new JSONObject(response.body());
-		
-		String res = json.getJSONObject("data")[0].getString("temp");
-		
-		view.addObject("res", res);
+		JSONObject results = new JSONObject(response.body().string());
+		JSONArray array = results.getJSONArray("data");
+		String temperature = array.getJSONObject(0).getString("temp");
+		view.addObject("temperature", temperature);
 		
 		return view;
 	}
