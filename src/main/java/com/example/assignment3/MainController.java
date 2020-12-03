@@ -75,9 +75,10 @@ public class MainController {
 		JSONObject o = (JSONObject) json;
 		JSONArray array = (JSONArray) o.get("data");
 		
+		String temperature = new String();
+		
 		for (int i = 0; i < array.size(); i++) {
 			JSONObject temp = (JSONObject) array.get(i);
-			String temperature = new String();
 			temperature = (String) temp.get("temp");
 		}
 		
