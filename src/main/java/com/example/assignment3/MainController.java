@@ -15,10 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import com.squareup.okhttp.*;
 
@@ -46,7 +42,7 @@ public class MainController {
     String bucketName;
 	
 	@GetMapping(path="/")
-	public ModelAndView biotext() throws IOException, ParseException{
+	public ModelAndView biotext(){
 		
 		User profile = userRepository.findByUsername("erik");
 		
