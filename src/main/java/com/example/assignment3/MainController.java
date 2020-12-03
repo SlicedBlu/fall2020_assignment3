@@ -74,7 +74,7 @@ public class MainController {
         myData = myData.getAsJsonObject();
 		JsonArray dataArray = myData.getAsJsonArray("data");
 		myData = dataArray.get(0).getAsJsonObject();
-        String temperature = myData.get("temperature").getAsString();
+        String temperature = myData.get("temp").getAsString();
 		
 		view.addObject("temperature", temperature);
 		
