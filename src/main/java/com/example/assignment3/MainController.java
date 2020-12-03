@@ -68,7 +68,26 @@ public class MainController {
 
 		Response response = client.newCall(request).execute();
 		
-		view.addObject("temperature", "30");
+		try:
+			JSONObject json = new JSONObject(response.body());
+			view.addObject("one", json);
+		catch:
+			view.addObject("one", "NULL");
+		try:
+			JSONArray array = (JSONArray) json.get("data");
+			view.addObject("two", array);
+		catch:
+			view.addObject("two", "NULL");
+		try:
+			JSONObject list = (JSONObject) array.get(0);
+			view.addObject("three", list);
+		catch:
+			view.addObject("three", "NULL");
+		try:
+			String temperature = (String) list.get("temp");
+			view.addObject("temperature", temperature);
+		catch:
+			view.addObject("temperature", "NULL");
 		
 		return view;
 	}
