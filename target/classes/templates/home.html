@@ -53,15 +53,16 @@
 				</div>
 			</div>
 		</div>
-		<div id = "content">
+		<div id = "api" style = "margin-top: 20px;">
 			<div class="container">
 				<div class="row">
 					<div class="col-12 col-md-4">
-						<h1>Weather</h1>
+						<h1>Weather (*C)</h1>
+						<h1>[Albany, NY]</h1>
 					</div>
 
 					<div class="col-12 col-md-8">
-						<p th:text = "${res}"></p>
+						<h1 th:text = "${temperature}"></h1>
 					</div>
 				</div>
 			</div>
