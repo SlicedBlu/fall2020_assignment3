@@ -68,7 +68,7 @@ public class MainController {
 
 		Response response = client.newCall(request).execute();
 		
-		JSONObject json = new JSONObject(response.body());
+		JSONObject json = new JSONObject(response.body().string());
 		String temperature = (String) json.get("count");
 		/* JSONArray array = (JSONArray) json.get("data");
 		JSONObject list = (JSONObject) array.get(0);
