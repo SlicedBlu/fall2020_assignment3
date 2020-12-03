@@ -45,7 +45,7 @@ public class MainController {
     String bucketName;
 	
 	@GetMapping(path="/")
-	public ModelAndView biotext() throws IOException{
+	public ModelAndView biotext() throws IOException, ParseException{
 		
 		User profile = userRepository.findByUsername("erik");
 		
