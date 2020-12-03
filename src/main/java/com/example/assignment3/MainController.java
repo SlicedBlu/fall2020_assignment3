@@ -15,6 +15,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonArray;
 
 import com.squareup.okhttp.*;
 
@@ -66,8 +69,14 @@ public class MainController {
 			.build();
 
 		Response response = client.newCall(request).execute();
+		
+		JsonObject jobject = JsonParser.parseString(response.body()).getAsJsonObject();
+        jobject = jobject.getAsJsonObject();
+		JsonArray jarray = jobject.getAsJsonArray("data");
+		jobject = jarray.get(0).getAsJsonObject();
+        String temperature = jobject.get("temp").getAsString();
 
-		String temperature = response.body().string();
+		//String temperature = response.body().string();
 		
 		view.addObject("temperature", temperature);
 		
