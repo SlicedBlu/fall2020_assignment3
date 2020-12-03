@@ -70,7 +70,7 @@ public class MainController {
 
 		Response response = client.newCall(request).execute();
 		
-		JsonObject jobject = JsonParser.parseString(response.body()).getAsJsonObject();
+		JsonObject jobject = JsonParser.parseString(response.body().string()).getAsJsonObject();
         jobject = jobject.getAsJsonObject();
 		JsonArray jarray = jobject.getAsJsonArray("data");
 		jobject = jarray.get(0).getAsJsonObject();
