@@ -16,6 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+import com.squareup.okhttp.*;
+
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
@@ -53,6 +55,22 @@ public class MainController {
 		view.addObject("biotext", biotext);
 		view.addObject("profilepic", profilepic);
 		view.addObject("name", name);
+		
+		OkHttpClient client = new OkHttpClient();
+
+		Request request = new Request.Builder()
+			.url("https://weatherbit-v1-mashape.p.rapidapi.com/current?lon=73.8247&lat=42.685")
+			.get()
+			.addHeader("x-rapidapi-key", "8516099479msh3520cf882ac6685p1e2a11jsn727d6a81970d")
+			.addHeader("x-rapidapi-host", "weatherbit-v1-mashape.p.rapidapi.com")
+			.build();
+
+		Response response = client.newCall(request).execute();
+		
+		String res = response.body().string();
+		
+		view.addObject("res", res);
+		
 		return view;
 	}
 	
