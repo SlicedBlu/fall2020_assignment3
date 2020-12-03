@@ -74,8 +74,6 @@ public class MainController {
 		
 		res = json.getJSONObject("data")[0].getString("temp");
 		
-		{"data":[{"rh":86.7,"pod":"n","lon":73.82,"pres":721.177,"timezone":"Asia\/Bishkek","ob_time":"2020-12-03 00:15","country_code":"KG","clouds":72,"ts":1606954545,"solar_rad":0,"state_code":"02","city_name":"Sosnovka","wind_spd":5.22994,"wind_cdir_full":"south-southeast","wind_cdir":"SSE","slp":1028.17,"vis":7,"h_angle":-90,"sunset":"11:31","dni":0,"dewpt":-13.3,"snow":0,"uv":0,"precip":0,"wind_dir":167,"sunrise":"02:15","ghi":0,"dhi":0,"aqi":15,"lat":42.69,"weather":{"icon":"c02n","code":802,"description":"Scattered Clouds"},"datetime":"2020-12-03:00","temp":-10.7,"station":"E4874","elev_angle":-24.07,"app_temp":-18.3}],"count":1}
-		
 		view.addObject("res", res);
 		
 		return view;
