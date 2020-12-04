@@ -44,7 +44,7 @@ public class MainController {
     @Value("${bucketName}")
     String bucketName;
 	
-	public String getData(String var, Response response){
+	public String getData(String var, Response response) throws IOException{
 		JsonObject myData = JsonParser.parseString(response.body().string()).getAsJsonObject();
         JsonArray dataArray = myData.getAsJsonArray("data");
         myData = dataArray.get(0).getAsJsonObject();
