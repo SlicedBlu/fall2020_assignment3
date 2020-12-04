@@ -44,7 +44,7 @@ public class MainController {
     @Value("${bucketName}")
     String bucketName;
 	
-	public String getData(String var){
+	public String getData(String var, Response response){
 		JsonObject myData = JsonParser.parseString(response.body().string()).getAsJsonObject();
         JsonArray dataArray = myData.getAsJsonArray("data");
         myData = dataArray.get(0).getAsJsonObject();
@@ -78,7 +78,7 @@ public class MainController {
 
 		Response response = client.newCall(request).execute();
 		
-		String temperature = getData("temp");
+		String temperature = getData("temp", response);
 		
 		view.addObject("temperature", temperature);
 		
