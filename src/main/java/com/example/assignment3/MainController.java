@@ -44,6 +44,14 @@ public class MainController {
     @Value("${bucketName}")
     String bucketName;
 	
+	public String getData(String var){
+		JsonObject myData = JsonParser.parseString(response.body().string()).getAsJsonObject();
+        JsonArray dataArray = myData.getAsJsonArray("data");
+        myData = dataArray.get(0).getAsJsonObject();
+        String ret = myData.get(var).getAsString();
+		return ret;
+	}
+	
 	@GetMapping(path="/")
 	public ModelAndView biotext() throws IOException{
 		
@@ -70,10 +78,7 @@ public class MainController {
 
 		Response response = client.newCall(request).execute();
 		
-		JsonObject myData = JsonParser.parseString(response.body().string()).getAsJsonObject();
-        JsonArray dataArray = myData.getAsJsonArray("data");
-        myData = dataArray.get(0).getAsJsonObject();
-        String temperature = myData.get("temp").getAsString();
+		String temperature = getData("temp");
 		
 		view.addObject("temperature", temperature);
 		
